@@ -15,8 +15,6 @@ public class TeleOpMode extends LinearOpMode {
         DcMotor backRightMotor = hardwareMap.dcMotor.get("rb_drive");
 
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
         //test these to see if bot goes forward when told to, if fails then swap from right to left, or vice versa
 
         waitForStart();
@@ -30,9 +28,9 @@ public class TeleOpMode extends LinearOpMode {
 
             double deno = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y+x+rx) / deno;
-            double backLeftPower = (-y+x-rx) / deno;
+            double backLeftPower = (y-x+rx) / deno;
             double frontRightPower = (y-x-rx) / deno;
-           double backRightPower = (y+x-rx) / deno;
+            double backRightPower = (y+x-rx) / deno;
 
 //            double frontLeftPower = (y) / deno;
 //            double backLeftPower = (x) / deno;
@@ -45,7 +43,7 @@ public class TeleOpMode extends LinearOpMode {
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
-
+   
         }
 
     }
