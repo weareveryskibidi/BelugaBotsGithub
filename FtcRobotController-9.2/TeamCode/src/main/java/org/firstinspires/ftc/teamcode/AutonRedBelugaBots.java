@@ -15,32 +15,6 @@ public class AutonRedBelugaBots extends LinearOpMode {
     private DcMotor lbDrive = null;
     private DcMotor rbDrive = null;
 
-    // Degrees or radians?
-    public static void turn(double angle){
-        int position = motor.getCurrentPosition();
-        double revolutions = position/CPR;
-        double angle = revolutions * 360;
-        double angleNormalized = angle % 360;
-        double distance = circumference * revolutions;
-
-        //Show the position of the motor on telemetry
-        telemetry.addData("Encoder Position", position);
-        telemetry.addData("Encoder Revolutions", revolutions);
-        telemetry.addData("Encoder Angle (Degrees)", angle);
-        telemetry.addData("Encoder Angle - Normalized (Degrees)", angleNormalized);
-        telemetry.addData("Linear Distance", distance);
-        telemetry.update();
-
-
-    }
-
-    // inches millimeters?
-    public static void move(double x, double y) {
-
-
-
-    }
-
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
