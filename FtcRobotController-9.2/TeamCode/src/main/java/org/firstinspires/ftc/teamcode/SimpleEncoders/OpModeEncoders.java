@@ -35,15 +35,22 @@ public class OpModeEncoders extends LinearOpMode {
             double rx = gamepad1.right_stick_x;
 
             double deno = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (y + x + rx) / deno;
-            double backLeftPower = (y - x + rx) / deno;
-            double frontRightPower = (y - x - rx) / deno;
-            double backRightPower = (y + x - rx) / deno;
+//            double frontLeftPower = (x + y + rx) / deno;
+//            double backLeftPower = (x - y + rx) / deno;
+//            double frontRightPower = (x - y - rx) / deno;
+//            double backRightPower = (x + y - rx) / deno;
 
-            frontLeftMotor.setPower(frontLeftPower);
-            backLeftMotor.setPower(backLeftPower);
-            frontRightMotor.setPower(frontRightPower);
-            backRightMotor.setPower(backRightPower);
+
+//
+//            frontLeftMotor.setPower(frontLeftPower);
+////            backLeftMotor.setPower(backLeftPower);
+////            frontRightMotor.setPower(frontRightPower);
+////            backRightMotor.setPower(backRightPower);
+
+            frontLeftMotor.setPower(0.5);
+             backLeftMotor.setPower(0.5);
+            frontRightMotor.setPower(0.5);
+            backRightMotor.setPower(0.5);
 
             double CPR = 537.7;
 
