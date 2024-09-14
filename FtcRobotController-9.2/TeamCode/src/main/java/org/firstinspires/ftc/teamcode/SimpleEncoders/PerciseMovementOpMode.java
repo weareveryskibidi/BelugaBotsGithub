@@ -13,6 +13,11 @@ public class PerciseMovementOpMode extends LinearOpMode {
     private DcMotor backLeftMotor;
     private DcMotor backRightMotor;
 
+    double CPR = 537.7;
+
+    double diameter = 3.77953; // Measured in inches; diameter is 96mm
+    double circumference = Math.PI * diameter;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -29,32 +34,64 @@ public class PerciseMovementOpMode extends LinearOpMode {
         backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         waitForStart();
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            move(5 ,1000, 0.5);
+            move(0, 5, 0);
+            sleep(1000);
+            move(5, 0, 0);
+            sleep(1000);
+            move(0, 0, 180);
             sleep(1000);
         }
+
+
     }
 
-    public void move(int x, int ticks, double speed) {
-        frontLeftMotor.setTargetPosition(frontLeftMotor.getCurrentPosition() + ticks);
-        frontRightMotor.setTargetPosition(frontRightMotor.getCurrentPosition() + ticks);
-        backLeftMotor.setTargetPosition(backLeftMotor.getCurrentPosition() + ticks);
-        backRightMotor.setTargetPosition(backRightMotor.getCurrentPosition() + ticks);
+    public void moveX(double x) {
+        move(x, 0, 0);
+    }
+
+    public void moveX(double x, double speed) {
+        move(x, 0, 0, speed);
+    }
+
+    public void moveY(double y) {
+        move(0,y,0);
+    }
+
+    public void moveA(double angle) {
+        move(0,0,angle);
+    }
+
+    public void move(double x, double y, double angle) {
+        move(x, y, angle, 10);
+    }
+
+    public void move(double x, double y, double angle, double speed) {
+
+        double ticksX = x / (circumference / CPR);
+        double ticksY = y / (circumference / CPR);
+        double ticksRotation = angle * 10.5733;
+
+        //Set X and Y to a position that IS not the default. Hint: Use the GoBilda mecanum wheel chart.
+        frontLeftMotor.setTargetPosition((int) (frontLeftMotor.getCurrentPosition() + ticksX + ticksY + ticksRotation));
+        frontRightMotor.setTargetPosition((int) (frontRightMotor.getCurrentPosition() + ticksX - ticksY - ticksRotation));
+        backLeftMotor.setTargetPosition((int) (backLeftMotor.getCurrentPosition() + ticksX - ticksY + ticksRotation));
+        backRightMotor.setTargetPosition((int) (backRightMotor.getCurrentPosition() + ticksX + ticksY - ticksRotation));
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         frontLeftMotor.setPower(speed);
         frontRightMotor.setPower(speed);
         backLeftMotor.setPower(speed);
         backRightMotor.setPower(speed);
 
-        while (frontLeftMotor.isBusy() && frontRightMotor.isBusy() && backLeftMotor.isBusy() && backRightMotor.isBusy()) {
+        while (frontLeftMotor.isBusy() || frontRightMotor.isBusy() || backLeftMotor.isBusy() || backRightMotor.isBusy()) {
             // Wait for the motors to finish moving
             telemetry.addData("Motor Status", "Moving...");
             telemetry.addData("Front Left Motor Position", frontLeftMotor.getCurrentPosition());
