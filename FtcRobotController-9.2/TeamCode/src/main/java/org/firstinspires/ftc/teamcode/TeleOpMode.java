@@ -27,7 +27,7 @@ public class TeleOpMode extends LinearOpMode {
             double rx = gamepad1.right_stick_x;
 
             double deno = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (y+x+rx) / deno;
+            double frontLeftPower = (y+x-rx) / deno;
             double backLeftPower = (y-x+rx) / deno;
             double frontRightPower = (y-x-rx) / deno;
             double backRightPower = (y+x-rx) / deno;
