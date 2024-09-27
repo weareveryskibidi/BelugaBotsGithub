@@ -14,37 +14,35 @@ public class TeleOpMode extends LinearOpMode {
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("lb_drive");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("rb_drive");
 
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        //test these to see if bot goes forward when told to, if fails then swap from right to left, or vice versa
+        // Define a speed variable that can scale the power (you can adjust this value as needed)
+        double speed = 1;  // Set the speed multiplier (0.5 for half speed, 1.0 for full speed)
 
+        // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        if(isStopRequested()) return;
+        // If the stop is requested, exit the loop
+        if (isStopRequested()) return;
 
-        while(opModeIsActive()) {
-            double y = -gamepad1.left_stick_y;
-            double x = gamepad1.left_stick_x * 1; //imp strafe counter (remember to change if needed)
-            double rx = gamepad1.right_stick_x;
+        while (opModeIsActive()) {
+            // Get joystick input for direction and rotation
+            double y = -gamepad1.left_stick_y;  // Forward and backward
+            double x = gamepad1.left_stick_x * 1;  // Strafing
+            double rx = gamepad1.right_stick_x;  // Rotation
 
+            // Calculate the denominator for normalizing motor power
             double deno = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (y+x-rx) / deno;
-            double backLeftPower = (y-x+rx) / deno;
-            double frontRightPower = (y-x-rx) / deno;
-            double backRightPower = (y+x-rx) / deno;
 
-//            double frontLeftPower = (y) / deno;
-//            double backLeftPower = (x) / deno;
-//            double frontRightPower = (rx) / deno;
-//            double backRightPower = (0) / deno;
+            // Calculate power for each motor with the speed variable applied
+            double frontLeftPower = (y + x - rx) / deno * speed;
+            double backLeftPower = (y - x + rx) / deno * speed;
+            double frontRightPower = (y - x - rx) / deno * speed;
+            double backRightPower = -(y + x - rx) / deno * speed;
 
-
-
+            // Set motor powers
             frontLeftMotor.setPower(frontLeftPower);
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
-   
         }
-
     }
 }
