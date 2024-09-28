@@ -26,7 +26,7 @@ public class TeleOpMode extends LinearOpMode {
         while (opModeIsActive()) {
             // Get joystick input for direction and rotation
             double y = -gamepad1.left_stick_y;  // Forward and backward
-            double x = gamepad1.left_stick_x * 1;  // Strafing
+            double x = gamepad1.left_stick_x * 1.1;  // Strafing
             double rx = gamepad1.right_stick_x;  // Rotation
 
             // Calculate the denominator for normalizing motor power
