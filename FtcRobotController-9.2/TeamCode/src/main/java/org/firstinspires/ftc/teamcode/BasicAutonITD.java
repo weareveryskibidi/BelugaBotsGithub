@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Auto Blue - Into The De ep")
+@Autonomous(name = "Auto Blue - Into The Deep")
 public class BasicAutonITD extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -55,8 +55,8 @@ public class BasicAutonITD extends LinearOpMode {
 
     private void strafeRight(double power, long duration) {
         lfDrive.setPower(power);
-        rfDrive.setPower(power);
-        lbDrive.setPower(power);
+        rfDrive.setPower(-power);
+        lbDrive.setPower(-power);
         rbDrive.setPower(power);
         sleep(duration);
     }
