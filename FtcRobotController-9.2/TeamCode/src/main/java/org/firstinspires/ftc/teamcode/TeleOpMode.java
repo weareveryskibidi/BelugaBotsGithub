@@ -3,7 +3,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Servo; //Important
 @TeleOp
 public class TeleOpMode extends LinearOpMode {
     @Override
@@ -43,6 +44,21 @@ public class TeleOpMode extends LinearOpMode {
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
+        }
+        // Declare your servo
+        private Servo slideServo;
+
+        // Define positions for linear slide
+        private static final double RETRACTED_POSITION = 0.0;  // Replace with your retracted position
+        private static final double EXTENDED_POSITION = 1.0;   // Replace with your extended position
+
+        @Override
+        public void init() {
+            // Initialize servo
+            slideServo = hardwareMap.get(Servo.class, "slideServo");
+
+            // Set initial position to retracted
+            slideServo.setPosition(RETRACTED_POSITION);
         }
     }
 }
